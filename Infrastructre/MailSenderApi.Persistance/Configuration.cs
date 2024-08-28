@@ -9,12 +9,17 @@ namespace MailSenderApi.Persistance
 {
     static public class Configuration
     {
-        public static string ConnectionString()
+        static public string ConnectionString
         {
-            ConfigurationManager conf = new ConfigurationManager();
-            conf.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/MailSenderApi.API"));
-            conf.AddJsonFile("appsettings.json");
-            return conf.GetConnectionString("ConnectionString"); // Environment variables will be added.
+            get
+            {
+                ConfigurationManager conf = new ConfigurationManager();
+                conf.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/MailSenderApi.API"));
+                conf.AddJsonFile("appsettings.json");                
+                return conf.GetConnectionString("DefaultConnectionString");  
+            }
+            
+           
         }
     }
 }
