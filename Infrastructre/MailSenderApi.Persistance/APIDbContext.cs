@@ -26,5 +26,29 @@ namespace MailSenderApi.Persistance
             modelBuilder.Entity<BaseEntity>().Property(e => e.IsDeleted).HasDefaultValue(false);
             base.OnModelCreating(modelBuilder); 
         }
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            SoftDelete();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+        public override int SaveChanges()
+        {
+            SoftDelete();
+            return base.SaveChanges();
+        }
+        private void SoftDelete()
+        {
+            var entities = ChangeTracker.Entries()
+                        .Where(e => e.State == EntityState.Deleted);
+            foreach (var entity in entities)
+            {
+                if(entity.Entity is BaseEntity)
+                {
+                    entity.State = EntityState.Modified;
+                    var baseEntity = (BaseEntity)entity.Entity;
+                    baseEntity.IsDeleted = true;
+                }
+            }
+        }
     }
 }

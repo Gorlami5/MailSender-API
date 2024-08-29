@@ -22,13 +22,42 @@ namespace MailSenderApi.Persistance.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("MailSenderApi.Domain.Entities.Company", b =>
+            modelBuilder.Entity("MailSenderApi.Domain.BaseEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BaseEntity");
+
+                    b.HasDiscriminator().HasValue("BaseEntity");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("MailSenderApi.Domain.Entities.Company", b =>
+                {
+                    b.HasBaseType("MailSenderApi.Domain.BaseEntity");
 
                     b.Property<string>("Address")
                         .HasColumnType("text");
@@ -36,121 +65,71 @@ namespace MailSenderApi.Persistance.Migrations
                     b.Property<string>("CompanyName")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Location")
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Companies");
+                    b.HasDiscriminator().HasValue("Company");
                 });
 
             modelBuilder.Entity("MailSenderApi.Domain.Entities.MailTemplate", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.HasBaseType("MailSenderApi.Domain.BaseEntity");
 
                     b.Property<string>("Body")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Topic")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("MailTemplates");
+                    b.HasDiscriminator().HasValue("MailTemplate");
                 });
 
             modelBuilder.Entity("MailSenderApi.Domain.Entities.ReceiverEmail", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.HasBaseType("MailSenderApi.Domain.BaseEntity");
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsSendedToday")
                         .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("SendStatus")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
-
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("ReceiverEmails");
+                    b.HasDiscriminator().HasValue("ReceiverEmail");
                 });
 
             modelBuilder.Entity("MailSenderApi.Domain.Entities.SentMail", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.HasBaseType("MailSenderApi.Domain.BaseEntity");
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("MailTemplateId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ToEmail")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
                     b.HasIndex("MailTemplateId");
 
-                    b.ToTable("SentMails");
+                    b.ToTable("BaseEntity", t =>
+                        {
+                            t.Property("CompanyId")
+                                .HasColumnName("SentMail_CompanyId");
+                        });
+
+                    b.HasDiscriminator().HasValue("SentMail");
                 });
 
             modelBuilder.Entity("MailSenderApi.Domain.Entities.ReceiverEmail", b =>
