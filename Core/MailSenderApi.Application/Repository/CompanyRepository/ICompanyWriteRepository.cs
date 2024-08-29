@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MailSenderApi.Application.Repository.CompanyRepository
 {
-    public interface ICompanyWriteRepository : IReadRepository<Company>
+    public interface ICompanyWriteRepository : IWriteRepository<Company>
     {
     }
 }

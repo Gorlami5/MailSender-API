@@ -19,8 +19,22 @@ namespace MailSenderApi.Persistance.Repository.CompanyRepository
 
         public List<Company> GetAllCompany()
         {
-            var companyList = GetAll();
-            return companyList.ToList();
+            try
+            {
+                var companyList = GetAll();
+                if (companyList == null)
+                {
+                    throw new Exception("Company does not found");
+                }
+                return companyList.ToList();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         public async Task<Company> GetCompanyById(int id)
@@ -39,14 +53,42 @@ namespace MailSenderApi.Persistance.Repository.CompanyRepository
                
                 throw;
             }
-           
-            
-            
+                      
         }
         public List<Company> GetAllCompanyByFilter(int id)
         {
-            var companyList = GetWhereList(c => c.Id > id);
-            return companyList.ToList();
+            try
+            {
+                var companyList = GetWhereList(c => c.Id > id);
+                if(companyList == null)
+                {
+                    throw new Exception("Company does not found");
+                }
+                return companyList.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+           
+        }
+        public async Task<Company> GetCompanyByPhoneNumber(string phoneNumber)
+        {
+            try
+            {
+                var company = await GetSingle(c => c.PhoneNumber == phoneNumber);
+                if(company == null)
+                {
+                    throw new Exception("Company does not found");
+                }
+                return company;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

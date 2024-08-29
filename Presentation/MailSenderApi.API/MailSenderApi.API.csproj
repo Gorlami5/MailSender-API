@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Core\MailSenderApi.Application\MailSenderApi.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructre\MailSenderApi.Persistance\MailSenderApi.Persistance.csproj" />
   </ItemGroup>
