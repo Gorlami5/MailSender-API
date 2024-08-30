@@ -19,23 +19,43 @@ namespace MailSenderApi.Persistance.Repository
         }
         public DbSet<T> Table => _context.Set<T>(); /*{ get => _context.Set<T>(); }*/ // Bir set işlemi yapmama rağmen neden readonly bir yapı kullanıyoruz.
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(bool tracking = true)
         {
-            return Table;
+            var query = Table.AsQueryable();
+            if(tracking == true)
+            {
+                query.AsNoTracking();
+            }
+            return query;
         }
 
-        public IQueryable<T> GetWhereList(Expression<Func<T, bool>> method)
+        public IQueryable<T> GetWhereList(Expression<Func<T, bool>> method, bool tracking = true)
         {
-           return Table.Where(method);
+            var query = Table.Where(method);
+            if(tracking == false)
+            {
+                query.AsNoTracking();
+            }
+           return query;
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id, bool tracking = true)
         {
-           return await Table.FirstOrDefaultAsync(t => t.Id == id);
+            var query =  Table.AsQueryable();
+            if(tracking == false)
+            {
+                query.AsNoTracking();
+            }
+            return await Table.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<T> GetSingle(Expression<Func<T, bool>> method)
+        public async Task<T> GetSingle(Expression<Func<T, bool>> method, bool tracking = true)
         {
+            var query = Table.AsQueryable();
+            if (tracking == false)
+            {
+                query.AsNoTracking();
+            }
             return await Table.FirstOrDefaultAsync(method);
         }
     }

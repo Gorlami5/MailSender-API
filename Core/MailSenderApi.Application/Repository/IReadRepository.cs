@@ -10,9 +10,9 @@ namespace MailSenderApi.Application.Repository
 {
     public interface IReadRepository<T> : IRepository<T> where T : BaseEntity
     {
-        IQueryable<T> GetAll(); //Queryable yapısını kullandığında list etmeden return edilebiliyor mu?
-        Task<T> GetByIdAsync(int id);
-        IQueryable<T> GetWhereList(Expression<Func<T,bool>> method); // kullanımına dikkat et.Nasıl parametre veriliyor öğren
-        Task<T> GetSingle(Expression<Func<T, bool>> method);
+        IQueryable<T> GetAll(bool tracking = true); //Queryable yapısını kullandığında list etmeden return edilebiliyor mu?
+        Task<T> GetByIdAsync(int id, bool tracking = true);
+        IQueryable<T> GetWhereList(Expression<Func<T,bool>> method, bool tracking = true); // kullanımına dikkat et.Nasıl parametre veriliyor öğren
+        Task<T> GetSingle(Expression<Func<T, bool>> method, bool tracking = true);
     }
 }
