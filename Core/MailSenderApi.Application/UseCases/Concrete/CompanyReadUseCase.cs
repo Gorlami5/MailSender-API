@@ -1,4 +1,6 @@
-﻿using MailSenderApi.Application.Constants;
+﻿using AutoMapper;
+using MailSenderApi.Application.Constants;
+using MailSenderApi.Application.Dtos;
 using MailSenderApi.Application.Repository.CompanyRepository;
 using MailSenderApi.Application.UseCases.Abstraction;
 using MailSenderApi.Domain.Entities;
@@ -14,20 +16,23 @@ namespace MailSenderApi.Application.UseCases.Concrete
     public class CompanyReadUseCase : ICompanyReadUseCase
     {
         private readonly ICompanyReadRepository _companyReadRepository;
-        public CompanyReadUseCase(ICompanyReadRepository companyReadRepository)
+        private readonly IMapper _mapper;
+        public CompanyReadUseCase(ICompanyReadRepository companyReadRepository, IMapper mapper)
         {
             _companyReadRepository = companyReadRepository;
+            _mapper = mapper;
         }
-        public List<Company> GetAllCompany()
+        public List<CompanyReturnDto> GetAllCompany()
         {
             try
             {
                 var companyList = _companyReadRepository.GetAll();
+                var mappingCompanyList =  _mapper.Map<List<CompanyReturnDto>>(companyList);
                 if (companyList == null)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return companyList.ToList();
+                return mappingCompanyList;
 
             }
             catch (ReadExcepitons)
@@ -66,16 +71,18 @@ namespace MailSenderApi.Application.UseCases.Concrete
             }
         }
 
-        public async Task<Company> GetCompanyById(int id)
+        public async Task<CompanyReturnDto> GetCompanyById(int id)
         {
             try
             {
                 var company = await _companyReadRepository.GetByIdAsync(id);
+               
                 if (company == null)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return company;
+                var mappingCompany = _mapper.Map<CompanyReturnDto>(company);
+                return mappingCompany;
             }
             catch (ReadExcepitons)
             {

@@ -1,4 +1,5 @@
-﻿using MailSenderApi.Application.UseCases.Abstraction;
+﻿using MailSenderApi.Application.Mapping;
+using MailSenderApi.Application.UseCases.Abstraction;
 using MailSenderApi.Application.UseCases.Concrete;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,7 +16,8 @@ namespace MailSenderApi.Application
         static public void AddCoreServiceRegistration(this IServiceCollection services)
         {
             services.AddScoped<ICompanyWriteUseCase,CompanyWriteUseCase>();
-            //services.AddScoped<ICompanyReadUseCase, CompanyReadUseCase>();
+            services.AddScoped<ICompanyReadUseCase, CompanyReadUseCase>();
+            services.AddAutoMapper(typeof(CompanyProfile));
         }
     }
 }
