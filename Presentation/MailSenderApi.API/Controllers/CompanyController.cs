@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MailSenderApi.Application.UseCases.Abstraction;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MailSenderApi.API.Controllers
@@ -7,13 +8,32 @@ namespace MailSenderApi.API.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
+        private readonly ICompanyReadUseCase _companyReadUseCase;
+        private readonly ICompanyWriteUseCase _companyWriteUseCase;
 
-        public CompanyController()
+        public CompanyController(ICompanyReadUseCase companyReadUseCase, ICompanyWriteUseCase companyWriteUseCase)
         {
-            
+            _companyReadUseCase = companyReadUseCase;
+            _companyWriteUseCase = companyWriteUseCase;
         }
+        [Route("GetAllCompany")]
         [HttpGet]
-        public IActionResult GetAllCompany() 
+        public IActionResult GetAllCompany()
+        {
+            var companies = _companyReadUseCase.GetAllCompany();
+            return Ok(companies);
+        }
+        [Route("GetCompany/{id}")]
+        [HttpGet]
+        public IActionResult GetCompany(int id)
+        {
+            var company = _companyReadUseCase.GetCompanyById(id);
+            return Ok(company);
+
+        }
+        [Route("CreateCompany")]
+        [HttpPost]
+        public IActionResult CreateCompany()
         {
             return Ok();
         }

@@ -48,7 +48,7 @@ namespace MailSenderApi.Persistance.Repository.CompanyRepository
                 }
                 return company;
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                
                 throw;
