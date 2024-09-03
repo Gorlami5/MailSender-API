@@ -1,4 +1,5 @@
 ﻿using MailSenderApi.Application.UseCases.Abstraction;
+using MailSenderApi.Application.ViewModels.Company;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,8 +34,12 @@ namespace MailSenderApi.API.Controllers
         }
         [Route("CreateCompany")]
         [HttpPost]
-        public IActionResult CreateCompany()
+        public IActionResult CreateCompany(CompanyCreate_VM company)
         {
+            if(ModelState.IsValid)
+            {
+
+            }
             return Ok();
         }
     }
