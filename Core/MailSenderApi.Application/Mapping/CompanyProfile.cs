@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MailSenderApi.Application.Dtos;
+using MailSenderApi.Application.ViewModels.Company;
 using MailSenderApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,11 @@ namespace MailSenderApi.Application.Mapping
         {
             CreateMap<Company, CompanyReturnDto>();
             CreateMap<CompanyReturnDto, Company>();
+            CreateMap<CompanyCreate_VM, Company>();
+            CreateMap<Company, CompanyCreate_VM>();
+            CreateMap<Company, CompanyUpdate_VM>();
+            CreateMap<CompanyUpdate_VM, Company>();
+
         }
     }
 }

@@ -17,6 +17,7 @@ namespace MailSenderApi.Application
         {
             services.AddScoped<ICompanyWriteUseCase,CompanyWriteUseCase>();
             services.AddScoped<ICompanyReadUseCase, CompanyReadUseCase>();
+            services.AddScoped<IEmailSenderUseCase, EmailSenderUseCase>();
             services.AddAutoMapper(typeof(CompanyProfile));
         }
     }

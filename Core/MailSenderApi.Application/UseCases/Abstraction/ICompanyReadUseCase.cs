@@ -12,6 +12,6 @@ namespace MailSenderApi.Application.UseCases.Abstraction
     {
         List<CompanyReturnDto> GetAllCompany();
         Task<CompanyReturnDto> GetCompanyById(int id);
-        List<Company> GetAllCompanyByFilter(int id);
+        List<CompanyReturnDto> GetAllCompanyByFilter(int id);
     }
 }

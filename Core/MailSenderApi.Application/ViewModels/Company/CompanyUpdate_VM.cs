@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MailSenderApi.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,10 @@ namespace MailSenderApi.Application.ViewModels.Company
 {
     public class CompanyUpdate_VM
     {
+        public string? CompanyName { get; set; }
+        public string? Location { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Address { get; set; }
+        public List<ReceiverEmail>? ReceiverEmails { get; set; }
     }
 }

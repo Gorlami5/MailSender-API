@@ -47,7 +47,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
             }
         }
 
-        public List<Company> GetAllCompanyByFilter(int id)
+        public List<CompanyReturnDto> GetAllCompanyByFilter(int id)
         {
             try
             {
@@ -56,7 +56,8 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return companyList.ToList();
+                var returnedDto = _mapper.Map<List<CompanyReturnDto>>(companyList);
+                return returnedDto.ToList();
 
             }
             catch (ReadExcepitons)

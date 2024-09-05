@@ -1,41 +1,34 @@
-﻿using AutoMapper;
-using MailSenderApi.Application.Constants;
+﻿using MailSenderApi.Application.Constants;
 using MailSenderApi.Application.Repository.CompanyRepository;
+using MailSenderApi.Application.Repository.ReceiverEmailRepository;
 using MailSenderApi.Application.UseCases.Abstraction;
-using MailSenderApi.Application.ViewModels.Company;
 using MailSenderApi.Domain.Entities;
 using MailSenderApi.Domain.Exceptions;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MailSenderApi.Application.UseCases.Concrete
 {
-    public class CompanyWriteUseCase : ICompanyWriteUseCase
+    public class ReceiverEmailWriteUseCase : IReceiverEmailWriteUseCase
     {
-        private readonly ICompanyWriteRepository _companyWriteRepository;
-        private readonly IMapper _mapper;
-
-        public CompanyWriteUseCase(ICompanyWriteRepository companyWriteRepository, IMapper mapper)
+        private readonly IReceiverEmailWriteRepository _receiverEmailWriteRepository;
+        public ReceiverEmailWriteUseCase(IReceiverEmailWriteRepository receiverEmailWriteRepository)
         {
-            _companyWriteRepository = companyWriteRepository;
-            _mapper = mapper;
+            _receiverEmailWriteRepository = receiverEmailWriteRepository;
         }
-        public async Task<int> CreateCompanies(List<CompanyCreate_VM> viewModelCompanies)
+        public async Task<int> CreateCompanies(List<ReceiverEmail> receiverEmail)
         {
             try
             {
-                var companies = _mapper.Map<List<Company>>(viewModelCompanies);
-                var returnedValue = await _companyWriteRepository.AddRangeAsync(companies);
+                var returnedValue = await _receiverEmailWriteRepository.AddRangeAsync(receiverEmail);
                 if (returnedValue is false)
                 {
                     throw new WriteExceptions(ErrorMessages.AddFault);
                 }
-                var saveAsync = await _companyWriteRepository.SaveChangesAsync();
+                var saveAsync = await _receiverEmailWriteRepository.SaveChangesAsync();
                 if (saveAsync < 1)
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
@@ -52,17 +45,16 @@ namespace MailSenderApi.Application.UseCases.Concrete
             }
         }
 
-        public async Task<int> CreateCompany(CompanyCreate_VM viewModelCompanies)
+        public async Task<int> CreateCompany(ReceiverEmail receiverEmail)
         {
             try
             {
-                var company = _mapper.Map<Company>(viewModelCompanies);
-                var returnedValue = await _companyWriteRepository.AddAsync(company);
+                var returnedValue = await _receiverEmailWriteRepository.AddAsync(receiverEmail);
                 if (returnedValue is false)
                 {
                     throw new WriteExceptions(ErrorMessages.AddFault);
                 }
-                var saveAsync = await _companyWriteRepository.SaveChangesAsync();
+                var saveAsync = await _receiverEmailWriteRepository.SaveChangesAsync();
                 if (saveAsync < 1)
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
@@ -71,27 +63,23 @@ namespace MailSenderApi.Application.UseCases.Concrete
             }
             catch (WriteExceptions)
             {
-
                 throw;
             }
             catch (Exception)
             {
-
                 throw new Exception(ErrorMessages.UnexpectedFault);
             }
-
-
         }
-        public async Task<int> DeleteCompany(Company company)
+        public async Task<int> DeleteCompany(ReceiverEmail receiverEmail)
         {
             try
             {
-                var returnedValue = _companyWriteRepository.Delete(company);
+                var returnedValue = _receiverEmailWriteRepository.Delete(receiverEmail);
                 if (returnedValue is false)
                 {
-                    throw new WriteExceptions(ErrorMessages.DeleteFault);
+                    throw new WriteExceptions(ErrorMessages.AddFault);
                 }
-                var saveAsync = await _companyWriteRepository.SaveChangesAsync();
+                var saveAsync = await _receiverEmailWriteRepository.SaveChangesAsync();
                 if (saveAsync < 1)
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
@@ -100,25 +88,24 @@ namespace MailSenderApi.Application.UseCases.Concrete
             }
             catch (WriteExceptions)
             {
-
                 throw;
             }
             catch (Exception)
             {
-
                 throw new Exception(ErrorMessages.UnexpectedFault);
             }
         }
+
         public async Task<int> DeleteCompanyById(int id)
         {
             try
             {
-                var returnedValue = _companyWriteRepository.Delete(id);
+                var returnedValue = _receiverEmailWriteRepository.Delete(id);
                 if (returnedValue is false)
                 {
-                    throw new WriteExceptions(ErrorMessages.DeleteFault);
+                    throw new WriteExceptions(ErrorMessages.AddFault);
                 }
-                var saveAsync = await _companyWriteRepository.SaveChangesAsync();
+                var saveAsync = await _receiverEmailWriteRepository.SaveChangesAsync();
                 if (saveAsync < 1)
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
@@ -127,26 +114,23 @@ namespace MailSenderApi.Application.UseCases.Concrete
             }
             catch (WriteExceptions)
             {
-
                 throw;
             }
             catch (Exception)
             {
-
                 throw new Exception(ErrorMessages.UnexpectedFault);
             }
         }
-        public async Task<int> UpdateCompany(CompanyUpdate_VM viewModelCompany)
+        public async Task<int> UpdateCompany(ReceiverEmail receiverEmail)
         {
             try
             {
-                var company = _mapper.Map<Company>(viewModelCompany);
-                var returnedValue = _companyWriteRepository.Update(company);
+                var returnedValue = _receiverEmailWriteRepository.Update(receiverEmail);
                 if (returnedValue is false)
                 {
-                    throw new WriteExceptions(ErrorMessages.UpdateFault);
+                    throw new WriteExceptions(ErrorMessages.AddFault);
                 }
-                var saveAsync = await _companyWriteRepository.SaveChangesAsync();
+                var saveAsync = await _receiverEmailWriteRepository.SaveChangesAsync();
                 if (saveAsync < 1)
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
@@ -162,9 +146,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 throw new Exception(ErrorMessages.UnexpectedFault);
             }
         }
-
     }
+
+
 }
-
-
-
