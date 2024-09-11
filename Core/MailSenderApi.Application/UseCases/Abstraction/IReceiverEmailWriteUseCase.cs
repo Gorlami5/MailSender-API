@@ -9,10 +9,10 @@ namespace MailSenderApi.Application.UseCases.Abstraction
 {
     public interface IReceiverEmailWriteUseCase
     {
-        Task<int> CreateCompany(ReceiverEmail receiverEmail);
-        Task<int> UpdateCompany(ReceiverEmail receiverEmail);
-        Task<int> DeleteCompanyById(int id);
-        Task<int> DeleteCompany(ReceiverEmail receiverEmail);
-        Task<int> CreateCompanies(List<ReceiverEmail> receiverEmail);
+        Task<int> CreateReceiverEmail(ReceiverEmail receiverEmail);
+        Task<int> UpdateReceiverEmail(ReceiverEmail receiverEmail);
+        Task<int> DeleteReceiverEmailById(int id);
+        Task<int> DeleteReceiverEmail(ReceiverEmail receiverEmail);
+        Task<int> CreateReceiverEmails(List<ReceiverEmail> receiverEmail);
     }
 }

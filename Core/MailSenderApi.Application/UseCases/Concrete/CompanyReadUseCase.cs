@@ -5,6 +5,7 @@ using MailSenderApi.Application.Repository.CompanyRepository;
 using MailSenderApi.Application.UseCases.Abstraction;
 using MailSenderApi.Domain.Entities;
 using MailSenderApi.Domain.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
         }
         public List<CompanyReturnDto> GetAllCompany()
         {
-            try
-            {
+           
                 var companyList = _companyReadRepository.GetAll();
                 var mappingCompanyList =  _mapper.Map<List<CompanyReturnDto>>(companyList);
                 if (companyList == null)
@@ -33,49 +33,23 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
                 return mappingCompanyList;
-
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+           
         }
 
         public List<CompanyReturnDto> GetAllCompanyByFilter(int id)
-        {
-            try
-            {
+        {          
                 var companyList = _companyReadRepository.GetWhereList(c => c.Id > id);
                 if (companyList == null)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
                 var returnedDto = _mapper.Map<List<CompanyReturnDto>>(companyList);
-                return returnedDto.ToList();
-
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                return returnedDto.ToList();    
         }
 
         public async Task<CompanyReturnDto> GetCompanyById(int id)
         {
-            try
-            {
+            
                 var company = await _companyReadRepository.GetByIdAsync(id);
                
                 if (company == null)
@@ -83,18 +57,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
                 var mappingCompany = _mapper.Map<CompanyReturnDto>(company);
-                return mappingCompany;
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                return mappingCompany;  
         }
     }
 }

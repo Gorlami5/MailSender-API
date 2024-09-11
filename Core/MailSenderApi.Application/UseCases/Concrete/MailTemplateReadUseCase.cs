@@ -22,26 +22,13 @@ namespace MailSenderApi.Application.UseCases.Concrete
         }
 
         public async Task<List<MailTemplate>> GetAllMailTemplates()
-        {
-            try
-            {
+        {          
                 var templates = _repository.GetAll();
                 if(templates == null) 
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return await templates.ToListAsync();
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                return await templates.ToListAsync();      
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using MailSenderApi.Domain.Entities;
+﻿using MailSenderApi.Application.Dtos;
+using MailSenderApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace MailSenderApi.Application.UseCases.Abstraction
 {
     public interface IReceiverEmailReadUseCase
     {
-        Task<List<ReceiverEmail>> GetAllReceiverEmails();
-        Task<ReceiverEmail> GetReceiverEmail(int id);
-        Task<ReceiverEmail> GetReceiverEmailByEmail(string email);
-        Task<List<ReceiverEmail>> GetAllReceiverEmailsByCompanyId(int id);
+       List<ReceiverEmailReturnDto> GetAllReceiverEmails();
+        Task<ReceiverEmailReturnDto> GetReceiverEmail(int id);
+        Task<ReceiverEmailReturnDto> GetReceiverEmailByEmail(string email);
+        List<ReceiverEmailReturnDto> GetAllReceiverEmailsByCompanyId(int id);
     }
 }

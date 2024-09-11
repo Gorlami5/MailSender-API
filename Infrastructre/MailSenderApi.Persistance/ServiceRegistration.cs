@@ -1,8 +1,12 @@
-﻿using MailSenderApi.Application.Repository;
+﻿using MailSenderApi.Application.Interfaces;
+using MailSenderApi.Application.Mapping;
+using MailSenderApi.Application.Repository;
 using MailSenderApi.Application.Repository.CompanyRepository;
 using MailSenderApi.Application.Repository.MailTemplateRepository;
 using MailSenderApi.Application.Repository.ReceiverEmailRepository;
 using MailSenderApi.Application.Repository.SentMailRepository;
+using MailSenderApi.Application.UseCases.Abstraction;
+using MailSenderApi.Application.UseCases.Concrete;
 using MailSenderApi.Persistance.Repository;
 using MailSenderApi.Persistance.Repository.CompanyRepository;
 using MailSenderApi.Persistance.Repository.MailTemplateRepository;
@@ -32,6 +36,15 @@ namespace MailSenderApi.Persistance
             services.AddScoped<ISentMailWriteRepository, SentMailWriteRepository>();
             services.AddScoped<IMailTemplateWriteRepository, MailTemplateWriteRepository>();
             services.AddScoped<IMailTemplateReadRepository, MailTemplateReadRepository>();
+            services.AddScoped<ISentMailReadUseCase, SentMailReadUseCase>();
+            services.AddScoped<ISentMailWriteUseCase,SentMailWriteUseCase>();
+            services.AddScoped<IReceiverEmailReadUseCase, ReceiverEmailReadUseCase>();
+            services.AddScoped<IReceiverEmailWriteUseCase, ReceiverEmailWriteUseCase>();
+            services.AddScoped<IMailTemplateReadUseCase, MailTemplateReadUseCase>();
+            services.AddScoped<IMailTemplateWriteUseCase, MailTemplateWriteUseCase>();
+            services.AddScoped<ICompanyWriteUseCase, CompanyWriteUseCase>();
+            services.AddScoped<ICompanyReadUseCase, CompanyReadUseCase>();
+            services.AddAutoMapper(typeof(CompanyProfile));
 
         }
     }

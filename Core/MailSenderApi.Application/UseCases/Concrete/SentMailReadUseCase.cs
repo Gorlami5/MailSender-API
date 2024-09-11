@@ -21,8 +21,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
         }
         public async Task<List<SentMail>> GetAllSentMail()
         {
-            try
-            {
+           
                 var sentMails = _repository.GetAll();
                 sentMails.Include(s => s.MailTemplate);
                 if (sentMails == null)
@@ -30,24 +29,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
                 return await sentMails.ToListAsync();
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
             
-            
+                      
         }
         public async Task<List<SentMail>> GetSentMailsListByCompanyId(int companyId)
         {
-            try
-            {
+           
                 var sentMails = _repository.GetWhereList(s => s.CompanyId == companyId);
                 sentMails.Include(s => s.MailTemplate);
                 if (sentMails == null)
@@ -55,17 +42,6 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
                 return await sentMails.ToListAsync();
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
         }
     }
 }

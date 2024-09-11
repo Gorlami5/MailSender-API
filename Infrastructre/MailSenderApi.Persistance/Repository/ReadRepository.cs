@@ -46,7 +46,7 @@ namespace MailSenderApi.Persistance.Repository
             {
                 query.AsNoTracking();
             }
-            return await Table.FirstOrDefaultAsync(t => t.Id == id);
+            return await query.FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<T> GetSingle(Expression<Func<T, bool>> method, bool tracking = true)
@@ -56,7 +56,7 @@ namespace MailSenderApi.Persistance.Repository
             {
                 query.AsNoTracking();
             }
-            return await Table.FirstOrDefaultAsync(method);
+            return await query.FirstOrDefaultAsync(method);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace MailSenderApi.Application.UseCases.Abstraction
     {
         Task<int> CreateSentMail(SentMail sentMail);
         Task<int> DeleteSentMailById(int id);
+        Task<int> CreateSentMails(List<SentMail> sentMails);
     }
 }

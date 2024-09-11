@@ -9,9 +9,9 @@ namespace MailSenderApi.Application.UseCases.Abstraction
 {
     public interface IMailTemplateWriteUseCase
     {
-        Task<int> CreateMailTemplate(MailTemplate mailTemplate);
-        Task<int> UpdateMailTemplate(MailTemplate mailTemplate);
-        Task<int> DeleteMailTemplateById(int id);
-        Task<int> DeleteMailTemplate(MailTemplate mailTemplate);
+        Task CreateMailTemplate(MailTemplate mailTemplate);
+        Task UpdateMailTemplate(MailTemplate mailTemplate);
+        Task DeleteMailTemplateById(int id);
+        Task DeleteMailTemplate(MailTemplate mailTemplate);
     }
 }

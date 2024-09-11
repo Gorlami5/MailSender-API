@@ -22,10 +22,9 @@ namespace MailSenderApi.Application.UseCases.Concrete
             _repository = repository;
         }
 
-        public async Task<int> CreateMailTemplate(MailTemplate mailTemplate)
+        public async Task CreateMailTemplate(MailTemplate mailTemplate)
         {
-            try
-            {
+          
                 var returnedValue = await _repository.AddAsync(mailTemplate);
                 if (returnedValue is false)
                 {
@@ -36,24 +35,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
-                return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
         }
 
-        public async Task<int> DeleteMailTemplate(MailTemplate mailTemplate)
+        public async Task DeleteMailTemplate(MailTemplate mailTemplate)
         {
-            try
-            {
+            
                 var returnedValue = _repository.Delete(mailTemplate);
                 if (returnedValue is false)
                 {
@@ -64,24 +51,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
-                return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
 
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
         }
 
-        public async Task<int> DeleteMailTemplateById(int id)
+        public async Task DeleteMailTemplateById(int id)
         {
-            try
-            {
+           
                 var returnedValue = _repository.Delete(id);
                 if (returnedValue is false)
                 {
@@ -91,25 +66,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 if (saveAsync < 1)
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
-                }
-                return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                }           
         }
 
-        public async Task<int> UpdateMailTemplate(MailTemplate mailTemplate)
+        public async Task UpdateMailTemplate(MailTemplate mailTemplate)
         {
-            try
-            {
+           
                 var returnedValue = _repository.Update(mailTemplate);
                 if (returnedValue is false)
                 {
@@ -119,17 +81,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 if (saveAsync < 1)
                 {
                     throw new WriteExceptions(ErrorMessages.SaveFault);
-                }
-                return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                }           
         }
     }
 }

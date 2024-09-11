@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MailSenderApi.Application.UseCases.Abstraction;
+using MailSenderApi.Domain.Entities;
+using MailSenderApi.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MailSenderApi.API.Controllers
@@ -7,5 +10,79 @@ namespace MailSenderApi.API.Controllers
     [ApiController]
     public class ReceiverEmailController : ControllerBase
     {
+        private readonly IReceiverEmailReadUseCase _receiverEmailReadUseCase;
+        private readonly IReceiverEmailWriteUseCase _receiverEmailWriteUseCase;
+        public ReceiverEmailController(IReceiverEmailReadUseCase receiverEmailReadUseCase, IReceiverEmailWriteUseCase receiverEmailWriteUseCase)
+        {
+            _receiverEmailReadUseCase = receiverEmailReadUseCase;
+            _receiverEmailWriteUseCase = receiverEmailWriteUseCase;
+        }
+
+        [HttpGet]
+        [Route("GetAllReceiverEmail")]
+        public async Task<IActionResult> GetAllReceiverEmail()
+        {
+            try
+            {
+                _receiverEmailReadUseCase.GetAllReceiverEmails();
+                return Ok();
+            }
+            catch (ReadExcepitons ex)
+            {
+
+               return NotFound(ex.Message);
+            }
+            
+        }
+        [HttpPost]
+        [Route("CreateReceiverEmails")] 
+        public async Task<IActionResult> CreateReceiverEmails(ReceiverEmail receiverEmail)
+        {
+            try
+            {
+                await _receiverEmailWriteUseCase.CreateReceiverEmail(receiverEmail);
+                return Ok();
+
+            }
+            catch (WriteExceptions ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+        
+        }
+        [HttpPost]
+        [Route("UpdateReceiverEmails")]
+        public async Task<IActionResult> UpdateReceiverEmails(ReceiverEmail receiverEmail)
+        {
+            try
+            {
+                await _receiverEmailWriteUseCase.UpdateReceiverEmail(receiverEmail);
+                return Ok();
+            }
+            catch (WriteExceptions ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+
+        }
+        [HttpDelete]
+        [Route("DeleteReceiverEmails")]
+        public async Task<IActionResult> DeleteReceiverEmails(int id)
+        {
+            try
+            {
+                await _receiverEmailWriteUseCase.DeleteReceiverEmailById(id);
+                return Ok();
+
+            }
+            catch (WriteExceptions ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+
+        }
     }
 }

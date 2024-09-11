@@ -1,7 +1,9 @@
 ﻿using MailSenderApi.Application.UseCases.Abstraction;
 using MailSenderApi.Application.ViewModels.Company;
+using MailSenderApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace MailSenderApi.API.Controllers
 {
@@ -21,26 +23,49 @@ namespace MailSenderApi.API.Controllers
         [HttpGet]
         public IActionResult GetAllCompany()
         {
-            var companies = _companyReadUseCase.GetAllCompany();
-            return Ok(companies);
+            try
+            {
+                var companies = _companyReadUseCase.GetAllCompany();
+                return Ok(companies);
+            }
+            catch (ReadExcepitons ex)
+            {
+                return NotFound(ex.Message);
+            }
+            
         }
         [Route("GetCompany/{id}")]
         [HttpGet]
         public IActionResult GetCompany(int id)
         {
-            var company = _companyReadUseCase.GetCompanyById(id);
-            return Ok(company);
+            try
+            {
+                var company = _companyReadUseCase.GetCompanyById(id);
+                return Ok(company);
+            }
+            catch (ReadExcepitons ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+         
 
         }
         [Route("CreateCompany")]
         [HttpPost]
-        public IActionResult CreateCompany(CompanyCreate_VM company)
+        public async Task<IActionResult> CreateCompany(CompanyCreate_VM company)
         {
-            if(ModelState.IsValid)
+            try
+            {
+                await _companyWriteUseCase.CreateCompany(company);
+                return Ok();
+            }
+            catch (WriteExceptions ex)
             {
 
+                return NotFound(ex.Message);
             }
-            return Ok();
+          
         }
     }
 }

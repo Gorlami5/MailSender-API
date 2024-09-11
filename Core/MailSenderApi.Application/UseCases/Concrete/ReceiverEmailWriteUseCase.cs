@@ -19,10 +19,9 @@ namespace MailSenderApi.Application.UseCases.Concrete
         {
             _receiverEmailWriteRepository = receiverEmailWriteRepository;
         }
-        public async Task<int> CreateCompanies(List<ReceiverEmail> receiverEmail)
+        public async Task<int> CreateReceiverEmails(List<ReceiverEmail> receiverEmail)
         {
-            try
-            {
+           
                 var returnedValue = await _receiverEmailWriteRepository.AddRangeAsync(receiverEmail);
                 if (returnedValue is false)
                 {
@@ -34,21 +33,13 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
+        
         }
 
-        public async Task<int> CreateCompany(ReceiverEmail receiverEmail)
+        public async Task<int> CreateReceiverEmail(ReceiverEmail receiverEmail)
         {
-            try
-            {
+           
                 var returnedValue = await _receiverEmailWriteRepository.AddAsync(receiverEmail);
                 if (returnedValue is false)
                 {
@@ -60,20 +51,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
+       
         }
-        public async Task<int> DeleteCompany(ReceiverEmail receiverEmail)
+        public async Task<int> DeleteReceiverEmail(ReceiverEmail receiverEmail)
         {
-            try
-            {
+           
                 var returnedValue = _receiverEmailWriteRepository.Delete(receiverEmail);
                 if (returnedValue is false)
                 {
@@ -85,21 +68,13 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
+        
         }
 
-        public async Task<int> DeleteCompanyById(int id)
+        public async Task<int> DeleteReceiverEmailById(int id)
         {
-            try
-            {
+           
                 var returnedValue = _receiverEmailWriteRepository.Delete(id);
                 if (returnedValue is false)
                 {
@@ -111,20 +86,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
+
         }
-        public async Task<int> UpdateCompany(ReceiverEmail receiverEmail)
+        public async Task<int> UpdateReceiverEmail(ReceiverEmail receiverEmail)
         {
-            try
-            {
+           
                 var returnedValue = _receiverEmailWriteRepository.Update(receiverEmail);
                 if (returnedValue is false)
                 {
@@ -136,15 +103,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
         }
     }
 

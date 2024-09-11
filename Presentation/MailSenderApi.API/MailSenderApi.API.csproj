@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MailSenderApi.Application\MailSenderApi.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructre\MailSenderApi.Infrastructre\MailSenderApi.Infrastructre.csproj" />
     <ProjectReference Include="..\..\Infrastructre\MailSenderApi.Persistance\MailSenderApi.Persistance.csproj" />
   </ItemGroup>
 

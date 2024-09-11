@@ -8,5 +8,8 @@ namespace MailSenderApi.Application.UseCases.Abstraction
 {
     public interface IEmailSenderUseCase
     {
+        Task SendEmailByCompanyId(int templateId, int companyId);
+        Task SendAllEmails(int templateId);
+        Task SendEmailByEmail(string email, int mailTemplateId);
     }
 }

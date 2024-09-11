@@ -23,8 +23,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
 
         public async Task<int> CreateSentMail(SentMail sentMail)
         {
-            try
-            {
+           
                 var returnedValue = await _repository.AddAsync(sentMail);
                 if (returnedValue is false)
                 {
@@ -36,25 +35,29 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
+            
+        }
+        public async Task<int> CreateSentMails(List<SentMail> sentMails)
+        {
+           
+                var returnedValue = await _repository.AddRangeAsync(sentMails);
+                if (returnedValue is false)
+                {
+                    throw new WriteExceptions(ErrorMessages.AddFault);
+                }
+                var saveAsync = await _repository.SaveChangesAsync();
+                if (saveAsync < 1)
+                {
+                    throw new WriteExceptions(ErrorMessages.SaveFault);
+                }
+                return saveAsync;          
 
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
         }
 
         public async Task<int> DeleteSentMailById(int id)
         {
 
-            try
-            {
-                var returnedValue = _repository.Delete(id);
+              var returnedValue = _repository.Delete(id);
                 if (returnedValue is false)
                 {
                     throw new WriteExceptions(ErrorMessages.DeleteFault);
@@ -65,17 +68,8 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
+            
 
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
         }
 
     }

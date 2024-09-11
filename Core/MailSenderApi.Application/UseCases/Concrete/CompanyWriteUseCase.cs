@@ -27,8 +27,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
         }
         public async Task<int> CreateCompanies(List<CompanyCreate_VM> viewModelCompanies)
         {
-            try
-            {
+           
                 var companies = _mapper.Map<List<Company>>(viewModelCompanies);
                 var returnedValue = await _companyWriteRepository.AddRangeAsync(companies);
                 if (returnedValue is false)
@@ -41,21 +40,13 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
+
         }
 
         public async Task<int> CreateCompany(CompanyCreate_VM viewModelCompanies)
         {
-            try
-            {
+           
                 var company = _mapper.Map<Company>(viewModelCompanies);
                 var returnedValue = await _companyWriteRepository.AddAsync(company);
                 if (returnedValue is false)
@@ -68,24 +59,11 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
-
 
         }
         public async Task<int> DeleteCompany(Company company)
         {
-            try
-            {
+            
                 var returnedValue = _companyWriteRepository.Delete(company);
                 if (returnedValue is false)
                 {
@@ -97,22 +75,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
+            
 
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
         }
         public async Task<int> DeleteCompanyById(int id)
         {
-            try
-            {
+           
                 var returnedValue = _companyWriteRepository.Delete(id);
                 if (returnedValue is false)
                 {
@@ -124,22 +92,12 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+            
+      
         }
         public async Task<int> UpdateCompany(CompanyUpdate_VM viewModelCompany)
         {
-            try
-            {
+            
                 var company = _mapper.Map<Company>(viewModelCompany);
                 var returnedValue = _companyWriteRepository.Update(company);
                 if (returnedValue is false)
@@ -152,15 +110,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
                     throw new WriteExceptions(ErrorMessages.SaveFault);
                 }
                 return saveAsync;
-            }
-            catch (WriteExceptions)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                  
         }
 
     }

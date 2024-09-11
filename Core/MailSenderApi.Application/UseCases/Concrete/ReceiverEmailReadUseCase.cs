@@ -1,4 +1,6 @@
-﻿using MailSenderApi.Application.Constants;
+﻿using AutoMapper;
+using MailSenderApi.Application.Constants;
+using MailSenderApi.Application.Dtos;
 using MailSenderApi.Application.Repository.ReceiverEmailRepository;
 using MailSenderApi.Application.UseCases.Abstraction;
 using MailSenderApi.Domain.Entities;
@@ -15,110 +17,60 @@ namespace MailSenderApi.Application.UseCases.Concrete
     public class ReceiverEmailReadUseCase : IReceiverEmailReadUseCase
     {
         private readonly IReceiverEmailReadRepository _receiverEmailReadRepository;
-        public ReceiverEmailReadUseCase(IReceiverEmailReadRepository receiverEmailReadRepository)
+        private readonly IMapper _mapper;
+        public ReceiverEmailReadUseCase(IReceiverEmailReadRepository receiverEmailReadRepository, IMapper mapper)
         {
-           _receiverEmailReadRepository = receiverEmailReadRepository;         
+           _receiverEmailReadRepository = receiverEmailReadRepository;
+           _mapper = mapper;
         }
-        public async Task<List<ReceiverEmail>> GetAllReceiverEmails()
+        public List<ReceiverEmailReturnDto> GetAllReceiverEmails()
         {
-            try
-            {
+            
                 var receiverEmails = _receiverEmailReadRepository.GetAll(false);
                 if(receiverEmails == null)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return await receiverEmails.ToListAsync();
-                
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                var receiverEmailsDtoList = _mapper.Map<List<ReceiverEmailReturnDto>>(receiverEmails);
+                return receiverEmailsDtoList;
 
         }
 
-        public async Task<List<ReceiverEmail>> GetAllReceiverEmailsByCompanyId(int id)
-        {
+        public List<ReceiverEmailReturnDto> GetAllReceiverEmailsByCompanyId(int id)
+        {     
             
-            
-            try
-            {
                 var GetAllReceiverEmails = _receiverEmailReadRepository.GetWhereList(e => e.CompanyId == id);
                 if (GetAllReceiverEmails == null)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return await GetAllReceiverEmails.ToListAsync();
-
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
+                var receiverEmailsDtoList = _mapper.Map<List<ReceiverEmailReturnDto>>(GetAllReceiverEmails);
+                return receiverEmailsDtoList;
         }
 
-        public async Task<ReceiverEmail> GetReceiverEmail(int id)
+        public async Task<ReceiverEmailReturnDto> GetReceiverEmail(int id)
         {
-            try
-            {
+            
                 var email = await _receiverEmailReadRepository.GetByIdAsync(id);
                 if (email == null)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return email;
-
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
-            
-           
+                var dto = _mapper.Map<ReceiverEmailReturnDto>(email);
+                return dto;
+         
         }
 
-        public async Task<ReceiverEmail> GetReceiverEmailByEmail(string email)
+        public async Task<ReceiverEmailReturnDto> GetReceiverEmailByEmail(string email)
         {
-            try
-            {
+           
                 var receiverEmail = await _receiverEmailReadRepository.GetSingle(e => e.Email.Equals(email));
                 if (receiverEmail == null)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return receiverEmail;
-
-            }
-            catch (ReadExcepitons)
-            {
-
-                throw;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception(ErrorMessages.UnexpectedFault);
-            }
-           
+                var dto = _mapper.Map<ReceiverEmailReturnDto>(receiverEmail);
+                return dto;          
            
         }
     }
