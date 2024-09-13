@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MailSenderApi.Application.ViewModels.EmailSender;
+using MailSenderApi.Application.ViewModels.EmailSenderVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;

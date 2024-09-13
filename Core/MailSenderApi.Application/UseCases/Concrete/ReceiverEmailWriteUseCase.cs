@@ -1,7 +1,9 @@
-﻿using MailSenderApi.Application.Constants;
+﻿using AutoMapper;
+using MailSenderApi.Application.Constants;
 using MailSenderApi.Application.Repository.CompanyRepository;
 using MailSenderApi.Application.Repository.ReceiverEmailRepository;
 using MailSenderApi.Application.UseCases.Abstraction;
+using MailSenderApi.Application.ViewModels.ReceiverEmailVM;
 using MailSenderApi.Domain.Entities;
 using MailSenderApi.Domain.Exceptions;
 using System;
@@ -15,14 +17,16 @@ namespace MailSenderApi.Application.UseCases.Concrete
     public class ReceiverEmailWriteUseCase : IReceiverEmailWriteUseCase
     {
         private readonly IReceiverEmailWriteRepository _receiverEmailWriteRepository;
-        public ReceiverEmailWriteUseCase(IReceiverEmailWriteRepository receiverEmailWriteRepository)
+        private readonly IMapper _mapper;
+        public ReceiverEmailWriteUseCase(IReceiverEmailWriteRepository receiverEmailWriteRepository,IMapper mapper)
         {
             _receiverEmailWriteRepository = receiverEmailWriteRepository;
+            _mapper = mapper;
         }
-        public async Task<int> CreateReceiverEmails(List<ReceiverEmail> receiverEmail)
+        public async Task<int> CreateReceiverEmails(List<ReceiverEmailCreate_VM> receiverEmail)
         {
-           
-                var returnedValue = await _receiverEmailWriteRepository.AddRangeAsync(receiverEmail);
+                var receiverEmails = _mapper.Map<List<ReceiverEmail>>(receiverEmail);
+                var returnedValue = await _receiverEmailWriteRepository.AddRangeAsync(receiverEmails);
                 if (returnedValue is false)
                 {
                     throw new WriteExceptions(ErrorMessages.AddFault);
@@ -37,10 +41,10 @@ namespace MailSenderApi.Application.UseCases.Concrete
         
         }
 
-        public async Task<int> CreateReceiverEmail(ReceiverEmail receiverEmail)
+        public async Task<int> CreateReceiverEmail(ReceiverEmailCreate_VM receiverEmail)
         {
-           
-                var returnedValue = await _receiverEmailWriteRepository.AddAsync(receiverEmail);
+                var rEmail = _mapper.Map<ReceiverEmail>(receiverEmail);
+                var returnedValue = await _receiverEmailWriteRepository.AddAsync(rEmail);
                 if (returnedValue is false)
                 {
                     throw new WriteExceptions(ErrorMessages.AddFault);
@@ -89,10 +93,10 @@ namespace MailSenderApi.Application.UseCases.Concrete
             
 
         }
-        public async Task<int> UpdateReceiverEmail(ReceiverEmail receiverEmail)
+        public async Task<int> UpdateReceiverEmail(ReceiverEmailUpdate_VM receiverEmail)
         {
-           
-                var returnedValue = _receiverEmailWriteRepository.Update(receiverEmail);
+                var rEmail = _mapper.Map<ReceiverEmail>(receiverEmail);
+                var returnedValue = _receiverEmailWriteRepository.Update(rEmail);
                 if (returnedValue is false)
                 {
                     throw new WriteExceptions(ErrorMessages.AddFault);

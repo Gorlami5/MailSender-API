@@ -1,5 +1,6 @@
 ﻿using MailSenderApi.Application.Repository.CompanyRepository;
 using MailSenderApi.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace MailSenderApi.Persistance.Repository.CompanyRepository
         public CompanyWriteRepository(APIDbContext apiDbContext) : base(apiDbContext)
         {
             _context = apiDbContext;
-        }      
+        } 
+
     }
 }

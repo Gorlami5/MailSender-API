@@ -1,4 +1,5 @@
 ﻿using MailSenderApi.Application.UseCases.Abstraction;
+using MailSenderApi.Application.ViewModels.ReceiverEmailVM;
 using MailSenderApi.Domain.Entities;
 using MailSenderApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
@@ -20,11 +21,11 @@ namespace MailSenderApi.API.Controllers
 
         [HttpGet]
         [Route("GetAllReceiverEmail")]
-        public async Task<IActionResult> GetAllReceiverEmail()
+        public IActionResult GetAllReceiverEmail()
         {
             try
             {
-                _receiverEmailReadUseCase.GetAllReceiverEmails();
+                 _receiverEmailReadUseCase.GetAllReceiverEmails();
                 return Ok();
             }
             catch (ReadExcepitons ex)
@@ -34,9 +35,25 @@ namespace MailSenderApi.API.Controllers
             }
             
         }
+        [HttpGet]
+        [Route("GetReceiverEmailById/{id}")]
+        public async Task<IActionResult> GetReceiverEmailById(int id)
+        {
+            try
+            {
+                await _receiverEmailReadUseCase.GetReceiverEmail(id);
+                return Ok();
+            }
+            catch (ReadExcepitons ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+
+        }
         [HttpPost]
         [Route("CreateReceiverEmails")] 
-        public async Task<IActionResult> CreateReceiverEmails(ReceiverEmail receiverEmail)
+        public async Task<IActionResult> CreateReceiverEmails(ReceiverEmailCreate_VM receiverEmail)
         {
             try
             {
@@ -53,7 +70,7 @@ namespace MailSenderApi.API.Controllers
         }
         [HttpPost]
         [Route("UpdateReceiverEmails")]
-        public async Task<IActionResult> UpdateReceiverEmails(ReceiverEmail receiverEmail)
+        public async Task<IActionResult> UpdateReceiverEmails(ReceiverEmailUpdate_VM receiverEmail)
         {
             try
             {

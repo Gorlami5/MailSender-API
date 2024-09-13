@@ -1,7 +1,7 @@
 ﻿using MailSenderApi.Application.Interfaces;
 using MailSenderApi.Application.UseCases.Abstraction;
 using MailSenderApi.Application.Validators.EmailSender;
-using MailSenderApi.Application.ViewModels.EmailSender;
+using MailSenderApi.Application.ViewModels.EmailSenderVM;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

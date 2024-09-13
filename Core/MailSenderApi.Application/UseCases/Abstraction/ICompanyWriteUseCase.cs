@@ -1,4 +1,5 @@
-﻿using MailSenderApi.Application.ViewModels.Company;
+﻿
+using MailSenderApi.Application.ViewModels.CompanyVM;
 using MailSenderApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace MailSenderApi.Application.UseCases.Abstraction
         Task<int> DeleteCompanyById(int id);
         Task<int> DeleteCompany(Company company);
         Task<int> CreateCompanies(List<CompanyCreate_VM> viewModelCompanies);
+        Task<int> UpdateCompanyWithReceiverEmails(CompanyUpdate_VM viewModelCompany, Company existcompany)
     }
 }

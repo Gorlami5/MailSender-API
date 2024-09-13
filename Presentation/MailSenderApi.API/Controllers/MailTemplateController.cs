@@ -1,4 +1,5 @@
 ﻿using MailSenderApi.Application.UseCases.Abstraction;
+using MailSenderApi.Application.ViewModels.MailTemplateVM;
 using MailSenderApi.Domain.Entities;
 using MailSenderApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +36,7 @@ namespace MailSenderApi.API.Controllers
         }
         [HttpPost]
         [Route("CreateMailTemplatel")]
-        public async Task<IActionResult> CreateMailTemplatel(MailTemplate mailTemplate)
+        public async Task<IActionResult> CreateMailTemplatel(MailTemplateCreate_VM mailTemplate)
         {
             try
             {

@@ -1,8 +1,10 @@
-﻿using MailSenderApi.Application.Constants;
+﻿using AutoMapper;
+using MailSenderApi.Application.Constants;
 using MailSenderApi.Application.Repository.CompanyRepository;
 using MailSenderApi.Application.Repository.MailTemplateRepository;
 using MailSenderApi.Application.Repository.SentMailRepository;
 using MailSenderApi.Application.UseCases.Abstraction;
+using MailSenderApi.Application.ViewModels.MailTemplateVM;
 using MailSenderApi.Domain.Entities;
 using MailSenderApi.Domain.Exceptions;
 using System;
@@ -17,15 +19,17 @@ namespace MailSenderApi.Application.UseCases.Concrete
     public class MailTemplateWriteUseCase : IMailTemplateWriteUseCase
     {
         private readonly IMailTemplateWriteRepository _repository;
-        public MailTemplateWriteUseCase(IMailTemplateWriteRepository repository)
+        private readonly IMapper _mapper;
+        public MailTemplateWriteUseCase(IMailTemplateWriteRepository repository,IMapper mapper)
         {
+            _mapper = mapper;
             _repository = repository;
         }
 
-        public async Task CreateMailTemplate(MailTemplate mailTemplate)
+        public async Task CreateMailTemplate(MailTemplateCreate_VM mailTemplate)
         {
-          
-                var returnedValue = await _repository.AddAsync(mailTemplate);
+                var template = _mapper.Map<MailTemplate>(mailTemplate);
+                var returnedValue = await _repository.AddAsync(template);
                 if (returnedValue is false)
                 {
                     throw new WriteExceptions(ErrorMessages.AddFault);

@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MailSenderApi.Application.Dtos
 {
-    public class ReceiverEmailReturnDto
+    public class MailTemplateReturnDto
     {
         public int Id { get; set; }
-        public int CompanyId { get; set; }
-        public string? Email { get; set; }
-        public bool IsSendedToday { get; set; }
+        public string? Topic { get; set; }
+        public string? Body { get; set; }
     }
 }

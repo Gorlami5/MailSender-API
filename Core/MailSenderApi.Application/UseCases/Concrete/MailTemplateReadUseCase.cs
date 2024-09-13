@@ -1,4 +1,6 @@
-﻿using MailSenderApi.Application.Constants;
+﻿using AutoMapper;
+using MailSenderApi.Application.Constants;
+using MailSenderApi.Application.Dtos;
 using MailSenderApi.Application.Repository.MailTemplateRepository;
 using MailSenderApi.Application.Repository.SentMailRepository;
 using MailSenderApi.Application.UseCases.Abstraction;
@@ -16,19 +18,23 @@ namespace MailSenderApi.Application.UseCases.Concrete
     public class MailTemplateReadUseCase : IMailTemplateReadUseCase
     {
         private readonly IMailTemplateReadRepository _repository;
-        public MailTemplateReadUseCase(IMailTemplateReadRepository repository)
+        private readonly IMapper _mapper;
+        public MailTemplateReadUseCase(IMailTemplateReadRepository repository,IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<List<MailTemplate>> GetAllMailTemplates()
+        public async Task<List<MailTemplateReturnDto>> GetAllMailTemplates()
         {          
                 var templates = _repository.GetAll();
+                await templates.ToListAsync();
+                var mappedTemplates = _mapper.Map<List<MailTemplateReturnDto>>(templates);
                 if(templates == null) 
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
-                return await templates.ToListAsync();      
+                return mappedTemplates;      
 
         }
     }

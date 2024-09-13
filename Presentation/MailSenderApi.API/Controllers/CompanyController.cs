@@ -1,5 +1,6 @@
 ﻿using MailSenderApi.Application.UseCases.Abstraction;
-using MailSenderApi.Application.ViewModels.Company;
+using MailSenderApi.Application.ViewModels.CompanyVM;
+using MailSenderApi.Domain.Entities;
 using MailSenderApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,6 +67,56 @@ namespace MailSenderApi.API.Controllers
                 return NotFound(ex.Message);
             }
           
+        }
+        [Route("UpdateCompanyWithReceiverEmails")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateCompanyWithReceiverEmails(CompanyUpdate_VM company,int companyId)
+        {
+            try
+            {
+                
+                await _companyWriteUseCase.UpdateCompanyWithReceiverEmails(company,await _companyReadUseCase.GetCompanyById2(companyId));
+                return Ok();
+            }
+            catch (WriteExceptions ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+
+        }
+        [Route("DeleteCompany")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCompany(Company company)
+        {
+            try
+            {
+                await _companyWriteUseCase.DeleteCompany(await _companyReadUseCase.GetCompanyById2(company.Id));
+                return Ok();
+            }
+            catch (WriteExceptions ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+
+        }
+        [Route("DeleteCompanyById")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCompanyById(int id)
+        {
+            try
+            {
+                
+                await _companyWriteUseCase.DeleteCompany(await _companyReadUseCase.GetCompanyById2(id));
+                return Ok();
+            }
+            catch (WriteExceptions ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+
         }
     }
 }

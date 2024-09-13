@@ -16,5 +16,11 @@ namespace MailSenderApi.Persistance.Repository.CompanyRepository
         {
             _context = apiDbContext;
         }
+
+        public async Task<Company> GetCompanyByIdAsync(int companyId)
+        {
+            var company = await _context.Companies.Include(c => c.ReceiverEmails).FirstOrDefaultAsync();
+            return company;
+        }
     }
 }

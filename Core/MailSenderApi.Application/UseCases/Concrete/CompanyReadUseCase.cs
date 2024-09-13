@@ -59,5 +59,16 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 var mappingCompany = _mapper.Map<CompanyReturnDto>(company);
                 return mappingCompany;  
         }
+        public async Task<Company> GetCompanyById2(int id)
+        {
+
+            var company = await _companyReadRepository.GetCompanyByIdAsync(id);
+
+            if (company == null)
+            {
+                throw new ReadExcepitons(ErrorMessages.NotFound);
+            }
+            return company;
+        }
     }
 }

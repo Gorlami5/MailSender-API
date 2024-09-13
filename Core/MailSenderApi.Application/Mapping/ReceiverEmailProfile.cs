@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MailSenderApi.Application.Dtos;
+using MailSenderApi.Application.ViewModels.ReceiverEmailVM;
 using MailSenderApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace MailSenderApi.Application.Mapping
         {
             CreateMap<ReceiverEmail, ReceiverEmailReturnDto>();
             CreateMap<ReceiverEmailReturnDto, ReceiverEmail>();
+            CreateMap<ReceiverEmail, ReceiverEmailCreate_VM>();
+            CreateMap<ReceiverEmailCreate_VM,ReceiverEmail>();
         }
     }
 }

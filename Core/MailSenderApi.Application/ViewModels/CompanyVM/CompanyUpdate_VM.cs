@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MailSenderApi.Application.ViewModels.Company
+namespace MailSenderApi.Application.ViewModels.CompanyVM
 {
-    public class CompanyCreate_VM
+    public class CompanyUpdate_VM
     {
+        public int Id { get; set; }
         public string? CompanyName { get; set; }
         public string? Location { get; set; }
         public string? PhoneNumber { get; set; }

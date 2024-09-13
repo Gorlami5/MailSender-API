@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MailSenderApi.Application.ViewModels.EmailSender
+namespace MailSenderApi.Application.ViewModels.EmailSenderVM
 {
     public class SendEmailByAddress_VM
     {

@@ -25,7 +25,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
         }
         public List<ReceiverEmailReturnDto> GetAllReceiverEmails()
         {
-            
+                
                 var receiverEmails = _receiverEmailReadRepository.GetAll(false);
                 if(receiverEmails == null)
                 {

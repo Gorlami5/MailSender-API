@@ -17,7 +17,7 @@ namespace MailSenderApi.Persistance.Repository
         {
             _context = apiDbContext;
         }
-        public DbSet<T> Table => _context.Set<T>(); /*{ get => _context.Set<T>(); }*/ // Bir set işlemi yapmama rağmen neden readonly bir yapı kullanıyoruz.
+        public DbSet<T> Table => _context.Set<T>(); 
 
         public IQueryable<T> GetAll(bool tracking = true)
         {
