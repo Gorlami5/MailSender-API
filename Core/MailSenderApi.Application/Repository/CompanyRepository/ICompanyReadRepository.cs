@@ -9,5 +9,6 @@ namespace MailSenderApi.Application.Repository.CompanyRepository
 {
     public interface ICompanyReadRepository : IReadRepository<Company>
     {
+        Task<Company> GetCompanyByIdAsync(int companyId);
     }
 }

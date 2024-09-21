@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MailSenderApi.Persistance;
-using MailSenderApi.Application;
+using FluentValidation.AspNetCore;
+using MailSenderApi.Application.Validators.Company;
+using MailSenderApi.Infrastructre;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
-
+builder.Services.AddControllers().AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CompanyValidators>());
+//.ConfigureBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true) If you want to use this function you can suppress asp.net core validation filter.
+//but in this case you have to control manuelly on your controller section or define custom validation filter.
 builder.Services.AddRegistration();
 builder.Services.AddCoreServiceRegistration();
 builder.Services.AddEndpointsApiExplorer();

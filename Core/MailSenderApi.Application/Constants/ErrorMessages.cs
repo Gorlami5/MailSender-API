@@ -16,6 +16,7 @@ namespace MailSenderApi.Application.Constants
         static public string UpdateFault = "Update Fault";
         static public string DeleteFault = "Delete Fault";
         static public string SaveFault = "SaveFault";
+        static public string MailSendFault = "Mail send fault";
 
     }
 }

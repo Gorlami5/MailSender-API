@@ -34,6 +34,7 @@ namespace MailSenderApi.Persistance
         public override int SaveChanges()
         {
             SoftDelete();
+            UpdateModifiedDate();
             return base.SaveChanges();
         }
         private void SoftDelete()
@@ -47,6 +48,17 @@ namespace MailSenderApi.Persistance
                     entity.State = EntityState.Modified;
                     var baseEntity = (BaseEntity)entity.Entity;
                     baseEntity.IsDeleted = true;
+                }
+            }
+        }
+
+        private void UpdateModifiedDate()
+        {
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.ModifiedDate = DateTime.Now;
                 }
             }
         }

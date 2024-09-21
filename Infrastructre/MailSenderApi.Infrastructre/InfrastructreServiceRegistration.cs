@@ -1,23 +1,22 @@
-﻿using MailSenderApi.Application.Mapping;
+﻿using MailSenderApi.Application.Interfaces;
 using MailSenderApi.Application.UseCases.Abstraction;
 using MailSenderApi.Application.UseCases.Concrete;
+using MailSenderApi.Infrastructre.Email;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MailSenderApi.Application
+namespace MailSenderApi.Infrastructre
 {
-    static public class CoreServiceRegistration
+    public static class InfrastructreServiceRegistration
     {
         static public void AddCoreServiceRegistration(this IServiceCollection services)
         {
-            services.AddScoped<ICompanyWriteUseCase,CompanyWriteUseCase>();
-            services.AddScoped<ICompanyReadUseCase, CompanyReadUseCase>();
-            services.AddAutoMapper(typeof(CompanyProfile));
+            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailSenderUseCase, EmailSenderUseCase>();
         }
     }
 }

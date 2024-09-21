@@ -17,7 +17,7 @@ namespace MailSenderApi.Persistance.Repository
         {
             _context = apiDbContext;
         }
-        public DbSet<T> Table => _context.Set<T>(); /*{ get => _context.Set<T>(); }*/ // Bir set işlemi yapmama rağmen neden readonly bir yapı kullanıyoruz.
+        public DbSet<T> Table => _context.Set<T>(); 
 
         public IQueryable<T> GetAll(bool tracking = true)
         {
@@ -46,7 +46,7 @@ namespace MailSenderApi.Persistance.Repository
             {
                 query.AsNoTracking();
             }
-            return await Table.FirstOrDefaultAsync(t => t.Id == id);
+            return await query.FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<T> GetSingle(Expression<Func<T, bool>> method, bool tracking = true)
@@ -56,7 +56,7 @@ namespace MailSenderApi.Persistance.Repository
             {
                 query.AsNoTracking();
             }
-            return await Table.FirstOrDefaultAsync(method);
+            return await query.FirstOrDefaultAsync(method);
         }
     }
 }

@@ -49,13 +49,13 @@ namespace MailSenderApi.Persistance.Repository
             EntityEntry entityEntry = Table.Update(entity);
             return entityEntry.State == EntityState.Modified;
         }
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            return _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
-        public Task<int> SaveChangesAsync2()
+        public async Task<int> SaveChangesAsync2()
         {
-            return _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

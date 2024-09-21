@@ -17,78 +17,10 @@ namespace MailSenderApi.Persistance.Repository.CompanyRepository
             _context = apiDbContext;
         }
 
-        public List<Company> GetAllCompany()
+        public async Task<Company> GetCompanyByIdAsync(int companyId)
         {
-            try
-            {
-                var companyList = GetAll();
-                if (companyList == null)
-                {
-                    throw new Exception("Company does not found");
-                }
-                return companyList.ToList();
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-           
-        }
-
-        public async Task<Company> GetCompanyById(int id)
-        {
-            try
-            {
-                var company = await GetByIdAsync(id);
-                if (company == null)
-                {
-                    throw new Exception("Company does not found");
-                }
-                return company;
-            }
-            catch (Exception ex)
-            {
-               
-                throw;
-            }
-                      
-        }
-        public List<Company> GetAllCompanyByFilter(int id)
-        {
-            try
-            {
-                var companyList = GetWhereList(c => c.Id > id);
-                if(companyList == null)
-                {
-                    throw new Exception("Company does not found");
-                }
-                return companyList.ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-           
-        }
-        public async Task<Company> GetCompanyByPhoneNumber(string phoneNumber)
-        {
-            try
-            {
-                var company = await GetSingle(c => c.PhoneNumber == phoneNumber);
-                if(company == null)
-                {
-                    throw new Exception("Company does not found");
-                }
-                return company;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            
+            var company = await _context.Companies.Include(c => c.ReceiverEmails).FirstOrDefaultAsync();
+            return company;
         }
     }
 }

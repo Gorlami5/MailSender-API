@@ -12,7 +12,7 @@ namespace MailSenderApi.Application.Repository
     {
         IQueryable<T> GetAll(bool tracking = true); 
         Task<T> GetByIdAsync(int id, bool tracking = true);
-        IQueryable<T> GetWhereList(Expression<Func<T,bool>> method, bool tracking = true); // kullanımına dikkat et.Nasıl parametre veriliyor öğren
+        IQueryable<T> GetWhereList(Expression<Func<T,bool>> method, bool tracking = true); 
         Task<T> GetSingle(Expression<Func<T, bool>> method, bool tracking = true);
     }
 }

@@ -10,7 +10,7 @@ namespace MailSenderApi.Domain.Entities
     {
         public int CompanyId { get; set; }
         public string? Email { get; set; }
-        public bool IsSendedToday { get; set; }
+        public bool IsSendedToday { get; set; } = false;
         public MailTypeStatus SendStatus { get; set; }
         public Company Company { get; set; }
 
