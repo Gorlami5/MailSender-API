@@ -17,7 +17,7 @@ namespace MailSenderApi.Application.Mapping
             CreateMap<MailTemplate, MailTemplateReturnDto>();
             CreateMap<MailTemplateReturnDto, MailTemplate>();
             CreateMap<MailTemplate, MailTemplateCreate_VM>();
-            CreateMap<MailTemplateCreate_VM, MailTemplate>();
+            CreateMap<MailTemplateCreate_VM, MailTemplate>().ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

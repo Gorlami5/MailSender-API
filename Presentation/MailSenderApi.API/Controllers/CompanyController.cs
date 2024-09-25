@@ -37,12 +37,12 @@ namespace MailSenderApi.API.Controllers
         }
         [Route("GetCompany/{id}")]
         [HttpGet]
-        public IActionResult GetCompany(int id)
+        public async Task<IActionResult> GetCompany(int id)
         {
             try
             {
-                var company = _companyReadUseCase.GetCompanyById(id);
-                return Ok(company);
+                var company = await _companyReadUseCase.GetCompanyById(id);
+                return  Ok(company);
             }
             catch (ReadExcepitons ex)
             {

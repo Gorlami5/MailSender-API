@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MailSenderApi.Domain.Entities
@@ -12,6 +13,7 @@ namespace MailSenderApi.Domain.Entities
         public string? Email { get; set; }
         public bool IsSendedToday { get; set; } = false;
         public MailTypeStatus SendStatus { get; set; }
+        [JsonIgnore]
         public Company Company { get; set; }
 
     }

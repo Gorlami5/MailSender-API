@@ -19,22 +19,23 @@ namespace MailSenderApi.Application.UseCases.Concrete
     {
         private readonly IMailTemplateReadRepository _repository;
         private readonly IMapper _mapper;
-        public MailTemplateReadUseCase(IMailTemplateReadRepository repository,IMapper mapper)
+        public MailTemplateReadUseCase(IMailTemplateReadRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
         public async Task<List<MailTemplateReturnDto>> GetAllMailTemplates()
-        {          
-                var templates = _repository.GetAll();
-                await templates.ToListAsync();
-                var mappedTemplates = _mapper.Map<List<MailTemplateReturnDto>>(templates);
-                if(templates == null) 
-                {
-                    throw new ReadExcepitons(ErrorMessages.NotFound);
-                }
-                return mappedTemplates;      
+        {
+            var templates = _repository.GetAll();
+            var enumerableTemplates = await templates.ToListAsync();
+            if (enumerableTemplates.Count == 0)
+            {
+                throw new ReadExcepitons(ErrorMessages.NotFound);
+            }
+            var mappedTemplates = _mapper.Map<List<MailTemplateReturnDto>>(templates);
+
+            return mappedTemplates;
 
         }
     }

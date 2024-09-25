@@ -27,8 +27,9 @@ namespace MailSenderApi.Application.UseCases.Concrete
         {
            
                 var companyList = _companyReadRepository.GetAll();
+
                 var mappingCompanyList =  _mapper.Map<List<CompanyReturnDto>>(companyList);
-                if (companyList == null)
+                if (companyList.ToList().Count == 0)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
@@ -39,7 +40,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
         public List<CompanyReturnDto> GetAllCompanyByFilter(int id)
         {          
                 var companyList = _companyReadRepository.GetWhereList(c => c.Id > id);
-                if (companyList == null)
+                if (companyList.ToList().Count == 0)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }

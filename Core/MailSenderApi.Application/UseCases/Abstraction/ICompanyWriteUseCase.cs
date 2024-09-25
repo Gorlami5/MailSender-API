@@ -16,6 +16,6 @@ namespace MailSenderApi.Application.UseCases.Abstraction
         Task<int> DeleteCompanyById(int id);
         Task<int> DeleteCompany(Company company);
         Task<int> CreateCompanies(List<CompanyCreate_VM> viewModelCompanies);
-        Task<int> UpdateCompanyWithReceiverEmails(CompanyUpdate_VM viewModelCompany, Company existcompany)
+        Task<int> UpdateCompanyWithReceiverEmails(CompanyUpdate_VM viewModelCompany, Company existcompany);
     }
 }

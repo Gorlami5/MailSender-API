@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace MailSenderApi.Persistance
 {
@@ -22,9 +24,26 @@ namespace MailSenderApi.Persistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BaseEntity>().HasQueryFilter(c => c.IsDeleted == false);
-            modelBuilder.Entity<BaseEntity>().Property(e => e.IsDeleted).HasDefaultValue(false);
-            base.OnModelCreating(modelBuilder); 
+            modelBuilder.Entity<ReceiverEmail>().HasQueryFilter(rm => rm.Company.IsDeleted == false); //Include
+            modelBuilder.Entity<SentMail>().HasQueryFilter(sm => sm.MailTemplate.IsDeleted == false);
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+                {
+                    var method = typeof(EF).GetMethod("Property", new[] { typeof(object), typeof(string) })
+                        ?.MakeGenericMethod(typeof(bool));
+
+                    var parameter = Expression.Parameter(entityType.ClrType, "e");
+                    var propertyMethodCall = Expression.Call(method, parameter, Expression.Constant("IsDeleted"));
+                    var filter = Expression.Lambda(Expression.Equal(propertyMethodCall, Expression.Constant(false)), parameter);
+
+                    modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
+
+                    modelBuilder.Entity(entityType.ClrType).Property("IsDeleted").HasDefaultValue(false);
+                }
+            }
+            base.OnModelCreating(modelBuilder);
         }
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

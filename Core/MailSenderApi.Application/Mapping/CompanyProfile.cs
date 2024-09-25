@@ -14,10 +14,14 @@ namespace MailSenderApi.Application.Mapping
     {
         public CompanyProfile()
         {
-            CreateMap<Company, CompanyReturnDto>();
+            CreateMap<Company, CompanyReturnDto>().ForMember(dest => dest.Id,opt => opt.MapFrom(src => src.Id)).ReverseMap().ForMember(dest => dest.ModifiedDate,opt => opt.Ignore()).
+                                                                                                                             ForMember(dest => dest.CreatedDate, opt => opt.Ignore()).
+                                                                                                                             ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
+
             CreateMap<CompanyReturnDto, Company>();
-            CreateMap<CompanyCreate_VM, Company>().ForMember(dest => dest.ReceiverEmails,opt => opt.MapFrom(a => a.ReceiverEmails));
-            CreateMap<Company, CompanyCreate_VM>().ForMember(dest => dest.ReceiverEmails, opt => opt.MapFrom(a => a.ReceiverEmails));
+            //CreateMap<CompanyCreate_VM, Company>().ForMember(dest => dest.ReceiverEmails,opt => opt.MapFrom(a => a.ReceiverEmails));
+            //CreateMap<Company, CompanyCreate_VM>().ForMember(dest => dest.ReceiverEmails, opt => opt.MapFrom(a => a.ReceiverEmails));
+            CreateMap<CompanyCreate_VM, Company>().ForMember(dest => dest.Id,opt => opt.Ignore()).ForMember(dest => dest.ReceiverEmails,opt => opt.MapFrom(src=> src.ReceiverCreateEmails)); 
             CreateMap<Company, CompanyUpdate_VM>();
             CreateMap<CompanyUpdate_VM, Company>();
 

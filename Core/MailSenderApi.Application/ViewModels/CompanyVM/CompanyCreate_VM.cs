@@ -1,4 +1,5 @@
-﻿using MailSenderApi.Domain.Entities;
+﻿using MailSenderApi.Application.ViewModels.ReceiverEmailVM;
+using MailSenderApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace MailSenderApi.Application.ViewModels.CompanyVM
         public string? Location { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
-        public List<ReceiverEmail>? ReceiverEmails { get; set; }
+        public List<ReceiverEmailCreate_VM> ReceiverCreateEmails { get; set; }
     }
 }

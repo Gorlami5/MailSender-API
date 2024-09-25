@@ -11,7 +11,7 @@ namespace MailSenderApi.Domain.Entities
         public string? Topic { get; set; }
         public string? Body { get; set; }
         //formatting property will be added for CV or etc.
-        public List<SentMail> SentMails { get; set; }
+        public List<SentMail>? SentMails { get; set; }
         public MailTemplate()
         {
             SentMails = new List<SentMail>();

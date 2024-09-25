@@ -25,8 +25,8 @@ namespace MailSenderApi.API.Controllers
         {
             try
             {
-                 _receiverEmailReadUseCase.GetAllReceiverEmails();
-                return Ok();
+                 var receiverEmails = _receiverEmailReadUseCase.GetAllReceiverEmails();
+                return Ok(receiverEmails);
             }
             catch (ReadExcepitons ex)
             {
@@ -41,8 +41,8 @@ namespace MailSenderApi.API.Controllers
         {
             try
             {
-                await _receiverEmailReadUseCase.GetReceiverEmail(id);
-                return Ok();
+                var receiverEmails = await _receiverEmailReadUseCase.GetReceiverEmail(id);
+                return Ok(receiverEmails);
             }
             catch (ReadExcepitons ex)
             {

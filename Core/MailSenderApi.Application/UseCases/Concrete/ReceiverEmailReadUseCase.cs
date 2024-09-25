@@ -27,7 +27,8 @@ namespace MailSenderApi.Application.UseCases.Concrete
         {
                 
                 var receiverEmails = _receiverEmailReadRepository.GetAll(false);
-                if(receiverEmails == null)
+
+                if(receiverEmails.ToList().Count == 0)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }
@@ -40,7 +41,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
         {     
             
                 var GetAllReceiverEmails = _receiverEmailReadRepository.GetWhereList(e => e.CompanyId == id);
-                if (GetAllReceiverEmails == null)
+                if (GetAllReceiverEmails.ToList().Count == 0)
                 {
                     throw new ReadExcepitons(ErrorMessages.NotFound);
                 }

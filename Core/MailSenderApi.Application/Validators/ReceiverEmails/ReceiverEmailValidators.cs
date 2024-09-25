@@ -14,7 +14,6 @@ namespace MailSenderApi.Application.Validators.ReceiverEmails
         public ReceiverEmailValidators()
         {
             RuleFor(p => p.Email).NotEmpty().EmailAddress().WithMessage("Invalid Email");
-            RuleFor(p => p.CompanyId).NotNull();
             RuleFor(p => p.SendStatus).NotNull();
         }
     }
