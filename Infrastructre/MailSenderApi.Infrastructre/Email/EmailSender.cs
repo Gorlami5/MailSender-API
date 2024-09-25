@@ -15,7 +15,7 @@ namespace MailSenderApi.Infrastructre.Email
         public async Task SendEmailAsync(List<string> toEmail, string subject, string body)
         {
             var email = new MimeMessage();
-            email.From.Add(new MailboxAddress(Configuration.GetEmailHost, Configuration.GetEmailPassword));
+            email.From.Add(new MailboxAddress("Muhammet Yonkuc", Configuration.GetEmailHost));
             foreach (var emails in toEmail)
             {
                 email.To.Add(new MailboxAddress("", emails));
@@ -27,9 +27,10 @@ namespace MailSenderApi.Infrastructre.Email
             };
             email.Body = bodyBuilder.ToMessageBody();
 
+
             using (var smtp = new SmtpClient())
             {
-                await smtp.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                await smtp.ConnectAsync("smtp-mail.outlook.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
                 await smtp.AuthenticateAsync(Configuration.GetEmailHost, Configuration.GetEmailPassword);
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);

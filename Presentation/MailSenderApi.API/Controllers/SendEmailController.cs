@@ -16,7 +16,7 @@ namespace MailSenderApi.API.Controllers
         {
             _emailSender = emailSender;
         }
-        [HttpGet]
+        [HttpPost]
         [Route("SendEmailByCompanyId")]
         public async Task<IActionResult> SendEmailByCompanyId([FromBody] SendEmailByCompany_VM sendEmailByCompany_VM)
         {

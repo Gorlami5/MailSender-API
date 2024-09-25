@@ -47,7 +47,7 @@ namespace MailSenderApi.Application.UseCases.Concrete
             }
             var body = CreateEmailBody(mailTemplate.Body);
 
-            var receiverEmails = await _receiverEmailReadRepository.GetWhereList(r => r.Id == companyId).ToListAsync();
+            var receiverEmails = await _receiverEmailReadRepository.GetWhereList(r => r.CompanyId == companyId).ToListAsync();
             if (receiverEmails != null)
             {
                 foreach (var receiverEmail in receiverEmails)
@@ -67,8 +67,10 @@ namespace MailSenderApi.Application.UseCases.Concrete
                 sentMails.Add(initSentMail);
             }
 
-             await _sentMailWriteUseCase.CreateSentMails(sentMails);            
-             await _emailSender.SendEmailAsync(filteredByCompanyIdReceiverEmailList, mailTemplate.Topic, body);
+             //Relocate with SendEmailAsync so true logic
+            await _emailSender.SendEmailAsync(filteredByCompanyIdReceiverEmailList, mailTemplate.Topic, body);
+            await _sentMailWriteUseCase.CreateSentMails(sentMails);
+
         }
         public async Task SendAllEmails(int templateId)
         {
